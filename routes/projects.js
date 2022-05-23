@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Project = require('./../models/project');
 const logger = require('./../middlewares/logger');
-const c = require('config');
+const cors = require('cors');
 
-router.post('/new/project', async (req, res) => {
+router.post('/new/project', cors(), async (req, res) => {
     Object.keys(req.body).forEach(key => {
         if (!req.body[key] || req.body[key] == '') return res.status(400).send(`${key} is required.`);
     });
@@ -28,7 +28,7 @@ router.post('/new/project', async (req, res) => {
     }
 });
 
-router.get('/projects', async (req, res) => {
+router.get('/projects', cors(), async (req, res) => {
     try {
         const projects = await Project.find({});
         if (projects.length < 1) return res.status(404).send("No projects found.")
